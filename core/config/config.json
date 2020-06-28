@@ -1,5 +1,6 @@
 {
   "constants": {
+    "APP_NAME": "Counselling",
     "DATETIME_FORMAT": "Y-m-d H:i:s",
     "DATE_FORMAT": "Y-m-d",
     "TIME_FORMAT": "H:i:s",
@@ -9,12 +10,12 @@
     "HELPER_FOLDER": "helpers",
     "MODEL_FOLDER": "models",
     "PLUGIN_FOLDER": "plugins",
-    "ASSET_FOLDER": "assets",
+    "ASSET_FOLDER": "assets/",
     "DEFAULT_ACTION": "index",
     "DEFAULT_CONTROLLER": "MainController",
     "ERROR_CONTROLLER": "ErrorController",
     "MYSQL_HOST": "localhost",
-    "MYSQL_DB": "mapping",
+    "MYSQL_DB": "counselling",
     "MYSQL_USERNAME": "root",
     "MYSQL_PASSWORD": ""
   }

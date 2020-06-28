@@ -55,7 +55,7 @@ class App
         }
 
         // Split the url into segments
-        $segments = explode('/', $url);
+        $segments = explode('/', parse_url($url)['path']);
 
         // Do our default checks
         if (isset($segments[0]) && $segments[0] != '') {
@@ -86,7 +86,7 @@ class App
          */
         $controllerOBJ = new $controller();
         $controllerOBJ->setApp($this)->initialize();
-        
+
         die(call_user_func_array([$controllerOBJ, $action], array_slice($segments, 2)));
     }
 }

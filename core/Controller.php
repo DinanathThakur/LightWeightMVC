@@ -109,6 +109,6 @@ class Controller
      */
     public function redirect($loc)
     {
-        header('Location: ' . BASE_URL . $loc);
+        header('Location: ' . $loc);
     }
 }

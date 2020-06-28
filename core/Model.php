@@ -7,7 +7,7 @@
  */
 class Model
 {
-
+    public $tableName = null;
     /**
      * @var resource
      */
@@ -21,6 +21,58 @@ class Model
     public function __construct(DBConnection $DBConnection)
     {
         $this->DBConnection = $DBConnection->getDBConnection();
+    }
+
+    public function getAll($where = 1, $selectedColumns = '*')
+    {
+        return $this->query("SELECT $selectedColumns FROM `$this->tableName` WHERE $where");
+    }
+
+    public function get($where)
+    {
+        return $this->query("SELECT * FROM `$this->tableName` WHERE $where LIMIT 1")[0] ?? [];
+    }
+
+    public function delete($where)
+    {
+        return $this->executeQuery("DELETE FROM `$this->tableName ` WHERE $where");
+    }
+
+    public function create($data)
+    {
+        $result = null;
+        try {
+            $columns = array_keys($data);
+
+            $columns = '`' . implode('`,`', $columns) . '`';
+            $values = '("' . implode('","', $data) . '")';
+
+            $result = $this->executeQuery("INSERT INTO `$this->tableName` ($columns) VALUES $values");
+
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        }
+        return $result;
+    }
+
+    public function update($where, array $data)
+    {
+        $result = null;
+        try {
+            $tmp = [];
+            array_walk($data, function ($value, $key) use (&$tmp) {
+                $tmp[] = '`' . $key . '` =' . '"' . $value . '"';
+            });
+
+            $set = implode(', ', $tmp);
+
+            $result = $this->executeQuery("UPDATE `$this->tableName` SET $set WHERE $where");
+
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        }
+
+        return $result;
     }
 
     /**
@@ -73,6 +125,8 @@ class Model
             while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                 $data[] = $row;
             }
+        } else {
+            echo("Could not select the data : " . mysqli_error($this->DBConnection));
         }
         return $data;
     }
